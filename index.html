@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Nexus AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;600&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Simple, elegant scrollbar for webkit browsers */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: rgba(17, 24, 39, 0.5); /* gray-900 with opacity */
+      }
+      ::-webkit-scrollbar-thumb {
+        background-color: #374151; /* gray-700 */
+        border-radius: 4px;
+        border: 2px solid transparent;
+        background-clip: content-box;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background-color: #4b5563; /* gray-600 */
+      }
+      html, body, #root {
+        height: 100%;
+      }
+
+      body {
+        --aurora-color-1: rgba(56, 189, 173, 0.15);
+        --aurora-color-2: rgba(59, 130, 246, 0.15);
+        background-color: #0d1117;
+        background-image:
+          radial-gradient(ellipse 80% 80% at 50% -20%,rgba(120,119,198,0.3), hsla(0,0%,100%,0)),
+          radial-gradient(at 20% 100%, var(--aurora-color-1), transparent 50%),
+          radial-gradient(at 80% 100%, var(--aurora-color-2), transparent 50%);
+        background-size: 100% 100%;
+        animation: aurora 20s infinite linear;
+      }
+
+      @keyframes aurora {
+        0% { background-position: 50% 0%, 0% 0%, 0% 0%; }
+        50% { background-position: 50% 10%, 10% 5%, -10% 5%; }
+        100% { background-position: 50% 0%, 0% 0%, 0% 0%; }
+      }
+      
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      .animate-fade-in-up {
+        animation: fadeInUp 0.5s ease-out forwards;
+      }
+
+      @keyframes stagger-in {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .animate-stagger-in {
+        animation: stagger-in 0.4s ease-out forwards;
+        opacity: 0;
+      }
+
+      @keyframes page-transition-in {
+        from {
+          opacity: 0;
+          transform: translateY(15px) scale(0.99);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+      
+      .animate-page-transition {
+        animation: page-transition-in 0.4s cubic-bezier(0.215, 0.610, 0.355, 1.000) forwards;
+      }
+
+      @keyframes float {
+        0%, 100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-6px);
+        }
+      }
+
+      .animate-float {
+        animation-name: float;
+        animation-timing-function: ease-in-out;
+        animation-iteration-count: infinite;
+      }
+
+      @keyframes synapse-pulse {
+        0%, 100% {
+          transform: scale(1);
+          opacity: 0.7;
+        }
+        50% {
+          transform: scale(1.6);
+          opacity: 1;
+        }
+      }
+
+      .synapse-pulse {
+        animation: synapse-pulse 2.5s ease-in-out infinite;
+        transform-origin: center;
+      }
+
+      @keyframes soft-pulse {
+        50% {
+          box-shadow: 0 0 0 8px rgba(59, 130, 246, 0), 0 0 0 0 rgba(59, 130, 246, 0.5);
+        }
+      }
+      
+      @keyframes toast-in {
+        from {
+          transform: translateX(100%);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes blink-cursor {
+        50% { background-color: transparent; }
+      }
+
+      .typing-cursor {
+        display: inline-block;
+        width: 8px;
+        height: 1.1em;
+        background-color: #5eead4; /* teal-400 */
+        animation: blink-cursor 1s step-end infinite;
+        vertical-align: text-bottom;
+        margin-left: 2px;
+        border-radius: 1px;
+      }
+      
+      /* Custom Prose styles for dark mode */
+      .prose {
+          max-width: 75ch; /* Improves readability on wide screens */
+          --tw-prose-body: #d1d5db;
+          --tw-prose-headings: #ffffff;
+          --tw-prose-lead: #a5b4fc;
+          --tw-prose-links: #5eead4;
+          --tw-prose-bold: #ffffff;
+          --tw-prose-counters: #9ca3af;
+          --tw-prose-bullets: #4b5563;
+          --tw-prose-hr: #374151;
+          --tw-prose-quotes: #e5e7eb;
+          --tw-prose-quote-borders: #374151;
+          --tw-prose-captions: #9ca3af;
+          --tw-prose-code: #5eead4;
+          --tw-prose-pre-code: #d1d5db;
+          --tw-prose-pre-bg: rgba(10, 15, 25, 0.5);
+          --tw-prose-th-borders: #4b5563;
+          --tw-prose-td-borders: #374151;
+      }
+      .prose :where(p):not(:where([class~="not-prose"] *)) {
+        margin-top: 1.25em;
+        margin-bottom: 1.25em;
+      }
+      .prose :where(h2,h3,h4):not(:where([class~="not-prose"] *)) {
+        margin-top: 2em;
+        margin-bottom: 1em;
+      }
+       .prose :where(ul,ol):not(:where([class~="not-prose"] *)) {
+        margin-top: 1.25em;
+        margin-bottom: 1.25em;
+      }
+
+      /* New styles for futuristic background */
+      .futuristic-background {
+        --mouse-x: 50%;
+        --mouse-y: 50%;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #02040a;
+        overflow: hidden;
+        z-index: 0;
+      }
+
+      @keyframes move-grid-futuristic {
+        from { background-position: 0 0; }
+        to { background-position: 100px 100px; }
+      }
+
+      @keyframes spin-aurora {
+          from { transform: translate(-50%, -50%) rotate(0deg); }
+          to { transform: translate(-50%, -50%) rotate(360deg); }
+      }
+
+      .futuristic-background::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: 
+          repeating-linear-gradient(0deg, transparent, transparent 49px, rgba(56, 189, 173, 0.1) 50px, transparent 51px, transparent 100px),
+          repeating-linear-gradient(90deg, transparent, transparent 49px, rgba(56, 189, 173, 0.1) 50px, transparent 51px, transparent 100px),
+          radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(167, 139, 250, 0.2) 0%, transparent 20%);
+        background-size: 100px 100px, 100px 100px, 100% 100%;
+        animation: move-grid-futuristic 20s linear infinite;
+        z-index: 1;
+      }
+
+      .futuristic-background::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 70vw;
+        height: 70vw;
+        min-width: 800px;
+        min-height: 800px;
+        background-image: 
+          radial-gradient(circle, rgba(56, 189, 173, 0.3) 0%, transparent 40%),
+          radial-gradient(circle, rgba(59, 130, 246, 0.3) 50%, transparent 80%);
+        background-blend-mode: screen;
+        filter: blur(80px);
+        animation: spin-aurora 30s linear infinite;
+        z-index: 2;
+        transform: translate(-50%, -50%);
+      }
+
+      .futuristic-background .vignette {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: radial-gradient(ellipse at center, rgba(2, 4, 10, 0) 60%, #02040a 100%);
+          z-index: 3;
+      }
+
+      /* Digital Dust effect */
+      @keyframes sparkle {
+        0%, 100% { opacity: 0; }
+        50% { opacity: 0.5; }
+      }
+
+      .futuristic-background .sparks {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: 
+          radial-gradient(circle at 10% 20%, white, transparent 1px),
+          radial-gradient(circle at 50% 30%, white, transparent 1px),
+          radial-gradient(circle at 80% 10%, white, transparent 1px),
+          radial-gradient(circle at 25% 70%, white, transparent 1px),
+          radial-gradient(circle at 70% 85%, white, transparent 1px),
+          radial-gradient(circle at 40% 90%, white, transparent 1px),
+          radial-gradient(circle at 90% 60%, white, transparent 1px);
+        background-size: 2px 2px;
+        background-repeat: no-repeat;
+        animation: sparkle 5s infinite alternate;
+        z-index: 1;
+      }
+
+      /* UI Enhancement Animations */
+      @keyframes slide-in-right {
+        from {
+          opacity: 0;
+          transform: translateX(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
+      .animate-slide-in-right {
+        animation: slide-in-right 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+      }
+
+      @keyframes glow-pulse {
+        0% { box-shadow: 0 0 0 0 rgba(56, 189, 173, 0.7); }
+        70% { box-shadow: 0 0 10px 15px rgba(56, 189, 173, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(56, 189, 173, 0); }
+      }
+      
+      .animate-glow-pulse {
+          animation: glow-pulse 1s ease-out;
+      }
+      
+      @keyframes progress-shimmer {
+        0% { transform: translateX(-100%) skewX(-30deg); }
+        100% { transform: translateX(200%) skewX(-30deg); }
+      }
+      
+      .progress-bar-shimmer::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50%;
+        height: 100%;
+        background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 100%);
+        animation: progress-shimmer 2s infinite linear;
+      }
+      .font-mono {
+        font-family: 'Roboto Mono', monospace;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.1.0/",
+    "react": "https://esm.sh/react@^19.1.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.1.0/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.8.0",
+    "react-markdown": "https://esm.sh/react-markdown@^9.0.1",
+    "rehype-raw": "https://esm.sh/rehype-raw@^7.0.0",
+    "remark-gfm": "https://esm.sh/remark-gfm@^4.0.0",
+    "bcryptjs": "https://esm.sh/bcryptjs@^3.0.2",
+    "cookie": "https://esm.sh/cookie@^1.0.2",
+    "@vercel/kv": "https://esm.sh/@vercel/kv@^3.0.0",
+    "jsonwebtoken": "https://esm.sh/jsonwebtoken@^9.0.2",
+    "@vercel/node": "https://esm.sh/@vercel/node@^5.3.4"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="font-sans antialiased text-gray-800 dark:text-gray-200">
+    <div id="root"></div>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>

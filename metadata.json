@@ -1,0 +1,8 @@
+{
+  "name": "Nexus AI",
+  "description": "Uma suíte completa de agentes de IA especializados e ferramentas poderosas para otimizar seu fluxo de trabalho, da análise de dados à criação de conteúdo.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "prompt": ""
+}
